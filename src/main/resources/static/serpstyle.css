@@ -1,0 +1,81 @@
+body {
+    font-family: 'Courier New', monospace;
+    background: #e8e8e8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+}
+
+#search-container {
+    height: 42px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid black;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: #DC143C;
+}
+
+input#userInput::placeholder {
+    color: #DC143C;
+}
+
+#results {
+    margin-top: 40px;
+    margin-left: 65px;
+    padding-top: 10px;
+    padding-left: 10px;
+    width: 50%;
+    font-size: 18px;
+    border: 2px solid black;
+    background-color: white;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: #DC143C;
+    margin-bottom: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: maroon;
+}
+
+h1#logo {
+    margin-left: 50px;
+    margin-right: 50px;
+    color: black;
+    font-size: 24px;
+}
+
+h1#logo a#logo-link {
+    all: unset;
+    color: inherit;
+    font-size: inherit;
+    display: inline;
+    margin: 0;
+    cursor: pointer;
+}
+
+a#logo-link:hover {
+    color: inherit;
+    text-decoration: none;
+}

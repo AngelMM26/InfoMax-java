@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InfoMax</title>
+    <link rel="stylesheet" href="serpstyle.css">
+</head>
+
+<body>
+    <header>
+        <h1 id="logo"><a href="index.html" id="logo-link">InfoMax</a></h1>
+        <div id="search-container">
+            <input id="userInput" placeholder="S E A R C H..." autocomplete="off" />
+        </div>
+    </header>
+    <div id="results"></div>
+
+    <script src="search.js"></script>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get("q");
+
+            document.getElementById("userInput").value = query
+
+            fetch(`/search?q=${query}`)
+                .then(result => result.json())
+                .then(data => {
+                    const start = document.getElementById("results");
+                    start.innerHTML = "";
+
+                    for (const [url, title] of Object.entries(data.results)) {
+                        let link = document.createElement("a");
+                        link.href = url;
+                        link.innerText = title;
+                        link.target = "_blank";
+                        start.appendChild(link);
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
