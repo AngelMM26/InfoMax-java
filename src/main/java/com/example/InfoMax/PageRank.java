@@ -9,22 +9,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
 public class PageRank {
-
     private Map<String, Double> ranks = new HashMap<>();
-    private Double totalDocs;
+    private Double dampningFactor = 0.85;
+    private Integer iterations = 100;
+    private Double threshold = 1e-6;
 
-    public void rank(Map<String, Set<String>> graph, Map<String, Set<String>> graphInbound, Integer totalCrawls) {
+    public void rank(Map<String, Set<String>> graph, Map<String, Set<String>> graphInbound) {
+        ranks.clear();
 
-        Double dampningFactor = 0.85;
-        Integer iterations = 100;
-
-        totalDocs = (double) totalCrawls;
         Set<String> nodes = new HashSet<>();
         for (String entry : graph.keySet()) {
             nodes.add(entry);
@@ -46,7 +41,7 @@ public class PageRank {
         }
 
         // Redistribute rank from sinks equally to all nodes during each iteration
-        for (Integer i = 0; i < iterations; ++i) {
+        for (Integer iter = 0; iter < iterations; ++iter) {
             Double sinkSum = 0.0;
             for (String sink : sinks) {
                 sinkSum += ranks.get(sink);
@@ -54,6 +49,7 @@ public class PageRank {
             sinkSum /= N;
 
             Map<String, Double> newRanks = new HashMap<>();
+            Double l1 = 0.0;
             for (String node : nodes) {
                 Double sumPR = 0.0;
                 for (String link : graphInbound.get(node)) {
@@ -63,18 +59,21 @@ public class PageRank {
                     }
                 }
                 newRanks.put(node, (1 - dampningFactor) / N + dampningFactor * (sumPR + sinkSum));
+                l1 += Math.abs(ranks.get(node) - newRanks.get(node));
             }
+
             ranks = newRanks;
+
+            // After 10 iterations check if change is less than the threshold for early stop
+            if (iter >= 9) { // Zero based indexing, this is still 10 iterations
+                if (11 < threshold) {
+                    System.out.println("Converged after " + iter + " iterations");
+                    break;
+                }
+            }
         }
+        System.out.println("All iterations needed");
 
-    }
-
-    public Map<String, Double> getPageranks() {
-        return ranks;
-    }
-
-    public Double getTotaldocs() {
-        return totalDocs;
     }
 
     public void outputRanks() {

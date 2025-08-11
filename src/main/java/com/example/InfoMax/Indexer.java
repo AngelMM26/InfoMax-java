@@ -10,13 +10,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
 public class Indexer {
-
     private Map<String, Map<String, Integer>> invertedIndex = new HashMap<>();
     private Map<String, String> documents = new HashMap<>();
     private Map<String, Integer> df = new HashMap<>();
@@ -30,7 +26,7 @@ public class Indexer {
         for (String token : tokens) {
             token = token.toLowerCase();
             // Keeps letters, apostrophes, and whitespace, but removes any digits
-            token = token.replaceAll("[^a-z'\\s]", "").replaceAll("//d", "");
+            token = token.replaceAll("[^a-z'\\s]", "").replaceAll("\\d", "");
 
             if (token.isEmpty()) {
                 continue;
@@ -59,6 +55,7 @@ public class Indexer {
                 } else {
                     df.put(token, 1);
                 }
+                visited.add(token);
             }
         }
 
@@ -77,22 +74,6 @@ public class Indexer {
         }
     }
 
-    public Map<String, Map<String, Integer>> getIndex() {
-        return invertedIndex;
-    }
-
-    public Map<String, String> getDocuments() {
-        return documents;
-    }
-
-    public Map<String, Integer> getDf() {
-        return df;
-    }
-
-    public Set<String> getStopwords() {
-        return stopWords;
-    }
-
     public void outputIndex() {
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -104,7 +85,7 @@ public class Indexer {
                     documents);
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("InfoMax/src/main/resources/data/df.json"), df);
         } catch (IOException err) {
-            System.err.println("Error writing invertedIndex.json/documents.json file: " + err.getMessage());
+            System.err.println("Error writing invertedIndex.json/documents.json/df.json file: " + err.getMessage());
         }
     }
 }

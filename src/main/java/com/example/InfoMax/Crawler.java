@@ -17,7 +17,7 @@ import org.jsoup.select.Elements;
 
 public class Crawler {
     public void crawl() {
-        int crawlLimit = 10;
+        int crawlLimit = 500;
         int crawls = 0;
 
         Queue<String> urls = new LinkedList<>();
@@ -25,6 +25,8 @@ public class Crawler {
 
         Set<String> visited = new HashSet<>();
 
+        // Regex to filter out "utility" pages, i.e wiki/Wikipedia:Community_portal,
+        // wiki/Help:Introduction, /wiki/Special:Random
         String regex = "^/wiki/(?!Wikipedia:|Portal:|Special:|Category:|File:|Help:|Template:|User:)[^:/]+$";
         Pattern pattern = Pattern.compile(regex);
 
@@ -46,6 +48,7 @@ public class Crawler {
                 int delay = 1000 + new Random().nextInt(2000);
                 Thread.sleep(delay);
 
+                // HTTP GET request to the currURL in an attempt to retrieve data
                 Document doc = Jsoup.connect(url).get();
                 String title = doc.title();
                 Elements links = doc.select("a");
@@ -80,7 +83,7 @@ public class Crawler {
         }
 
         PageRank ranker = new PageRank();
-        ranker.rank(graph, graphInbound, crawls);
+        ranker.rank(graph, graphInbound);
 
         indexer.outputIndex();
         ranker.outputRanks();

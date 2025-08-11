@@ -9,13 +9,11 @@
 </head>
 
 <body>
-    <h1 id>InfoMax</h1>
+    <h1>InfoMax</h1>
 
-    <div id="search-container">
-        <input id="userInput" placeholder="S E A R C H..." autocomplete="off" />
-    </div>
-
-    <script src="search.js"></script>
+    <form id="search-container" action="/results.html" method="GET">
+        <input id="userInput" name="q" placeholder="S E A R C H..." autocomplete="off" />
+    </form>
 </body>
 
 </html>

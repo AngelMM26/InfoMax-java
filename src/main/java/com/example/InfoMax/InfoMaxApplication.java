@@ -7,9 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class InfoMaxApplication {
-
 	public static void main(String[] args) {
-		Boolean crawl = true;
+		Boolean crawl = false;
 		if (crawl) {
 			LocalTime start = LocalTime.now();
 			System.out.println(start);
