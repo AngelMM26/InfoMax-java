@@ -12,8 +12,7 @@ public class InfoMaxApplication {
 		if (crawl) {
 			LocalTime start = LocalTime.now();
 			System.out.println(start);
-			Crawler testCrawler = new Crawler();
-			testCrawler.crawl();
+			Crawler.wikibot();
 			LocalTime end = LocalTime.now();
 			System.out.println(end);
 		}

@@ -90,17 +90,9 @@ mvn clean install
 
 ## 🌐 Running the Project
 
-1. Run the crawler (if not satisfied with sample data, may take a bit to run depending on desired CRAWL_LIMIT):
+1. Open InfoMaxApplication and set crawl to true (if not satisfied with sample data, may take a bit to run depending on desired CRAWL_LIMIT)
 
-```bash
-mvn exec:java -Dexec.mainClass="com.example.infomax.Crawler"
-```
-
-2. Start the Flask server:
-
-```bash
-mvn spring-boot:run
-```
+2. Start the Spring Boot server (Run InfoMaxApplication.java)
 
 3. Open `http://localhost:8080` in your browser.
 
@@ -118,7 +110,7 @@ mvn spring-boot:run
 
 ## 📌 Future Enhancements
 
-- Introduce **multi-threaded crawling** for speed 
+- Introduce **multi-threaded crawling** for speed ✅ 
 
 ---
 
