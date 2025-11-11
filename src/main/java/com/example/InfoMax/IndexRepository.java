@@ -32,16 +32,16 @@ public class IndexRepository {
     @PostConstruct
     public void load() {
         try {
-            invertedIndex = mapper.readValue(new File("InfoMax/src/main/resources/data/invertedIndex.json"),
+            invertedIndex = mapper.readValue(new File("src/main/resources/data/invertedIndex.json"),
                     new TypeReference<Map<String, Map<String, Integer>>>() {
                     });
-            documents = mapper.readValue(new File("InfoMax/src/main/resources/data/documents.json"),
+            documents = mapper.readValue(new File("src/main/resources/data/documents.json"),
                     new TypeReference<Map<String, String>>() {
                     });
-            df = mapper.readValue(new File("InfoMax/src/main/resources/data/df.json"),
+            df = mapper.readValue(new File("src/main/resources/data/df.json"),
                     new TypeReference<Map<String, Integer>>() {
                     });
-            pageRanks = mapper.readValue(new File("InfoMax/src/main/resources/data/pagerank.json"),
+            pageRanks = mapper.readValue(new File("src/main/resources/data/pagerank.json"),
                     new TypeReference<Map<String, Double>>() {
                     });
 

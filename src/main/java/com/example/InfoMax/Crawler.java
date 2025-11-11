@@ -33,6 +33,7 @@ public class Crawler {
 
             String url;
             try {
+                // wait two seconds to get next url in the queue
                 url = urls.poll(2000, TimeUnit.MILLISECONDS);
                 if (visited.contains(url) || url == null) {
                     continue;
@@ -51,6 +52,7 @@ public class Crawler {
                 Elements links = doc.select("a");
 
                 Set<String> outgoingLinks = new HashSet<>();
+
                 for (int i = 0; i < links.size(); ++i) {
                     String link = links.get(i).attr("href");
                     if (pattern.matcher(link).matches()) {

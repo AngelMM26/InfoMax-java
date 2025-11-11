@@ -52,7 +52,7 @@ public class PageRank {
             Double l1 = 0.0;
             for (String node : nodes) {
                 Double sumPR = 0.0;
-                for (String link : graphInbound.get(node)) {
+                for (String link : graphInbound.getOrDefault(node, new HashSet<>())) {
                     Integer numOutgoing = graph.get(link).size();
                     if (numOutgoing > 0) {
                         sumPR += ranks.get(link) / numOutgoing;
@@ -87,7 +87,7 @@ public class PageRank {
                 sortedRanks.put(entry.getKey(), entry.getValue());
             }
             mapper.writerWithDefaultPrettyPrinter().writeValue(
-                    new File("InfoMax/src/main/resources/data/pagerank.json"),
+                    new File("src/main/resources/data/pagerank.json"),
                     sortedRanks);
         } catch (IOException err) {
             System.err.println("Error writing pagerank.json file: " + err.getMessage());

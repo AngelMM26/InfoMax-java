@@ -28,7 +28,7 @@ public class Indexer {
             // Keeps letters, apostrophes, and whitespace, but removes any digits
             token = token.replaceAll("[^a-z'\\s]", "").replaceAll("\\d", "");
 
-            if (token.isEmpty()) {
+            if (token.isEmpty() || token.length() <= 2) {
                 continue;
             }
 
@@ -78,12 +78,12 @@ public class Indexer {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(
-                    new File("InfoMax/src/main/resources/data/invertedIndex.json"),
+                    new File("src/main/resources/data/invertedIndex.json"),
                     invertedIndex);
             mapper.writerWithDefaultPrettyPrinter().writeValue(
-                    new File("InfoMax/src/main/resources/data/documents.json"),
+                    new File("src/main/resources/data/documents.json"),
                     documents);
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("InfoMax/src/main/resources/data/df.json"), df);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("src/main/resources/data/df.json"), df);
         } catch (IOException err) {
             System.err.println("Error writing invertedIndex.json/documents.json/df.json file: " + err.getMessage());
         }
