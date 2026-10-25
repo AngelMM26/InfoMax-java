@@ -47,6 +47,7 @@ public class Crawler {
                 Thread.sleep(delay);
 
                 // HTTP GET request to the currURL in an attempt to retrieve data
+                System.out.println("Crawling: " + url);
                 Document doc = Jsoup.connect(url).get();
                 String title = doc.title();
                 Elements links = doc.select("a");
@@ -56,16 +57,15 @@ public class Crawler {
                 for (int i = 0; i < links.size(); ++i) {
                     String link = links.get(i).attr("href");
                     if (pattern.matcher(link).matches()) {
-                        String fixedLink = "https://en.wikipedia.org" + link;
-                        urls.add(fixedLink);
-                        outgoingLinks.add(fixedLink);
+                        urls.add(link);
+                        outgoingLinks.add(link);
 
-                        if (graphInbound.containsKey(fixedLink)) {
-                            graphInbound.get(fixedLink).add(url);
+                        if (graphInbound.containsKey(link)) {
+                            graphInbound.get(link).add(url);
                         } else {
                             Set<String> inboundLinks = new HashSet<>();
                             inboundLinks.add(url);
-                            graphInbound.put(fixedLink, inboundLinks);
+                            graphInbound.put(link, inboundLinks);
                         }
                     }
                 }
@@ -106,7 +106,7 @@ public class Crawler {
 
         // Regex to filter out "utility" pages, i.e wiki/Wikipedia:Community_portal,
         // wiki/Help:Introduction, /wiki/Special:Random
-        String regex = "^/wiki/(?!Wikipedia:|Portal:|Special:|Category:|File:|Help:|Template:|User:)[^:/]+$";
+        String regex = "^https://en\\.wikipedia\\.org/wiki/" + "(?!Wikipedia:|Portal:|Special:|Category:|File:|Help:|Template:|User:)" + "[^:/]+$";
         Pattern pattern = Pattern.compile(regex);
 
         int n = 50;
